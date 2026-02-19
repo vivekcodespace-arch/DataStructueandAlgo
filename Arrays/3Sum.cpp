@@ -1,6 +1,7 @@
 class Solution {
 public:
     // Brute force approach
+    //Time Complexity O(n^3)
     vector<vector<int>> threeSum(vector<int>& nums) {
         set<vector<int>> st;
         int n = nums.size();
@@ -21,5 +22,32 @@ public:
     }
 };
 
+//Better solution TC - (n^2logn)
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        //inplementing O(n^2logn)
+        set<vector<int>> st;
+        int n = nums.size();
+        for(int i=0;i<n-2;i++){
+            //implement 2sum
+            set<int> hashSet;
+            //This block contributes nlogn TC
+            for(int j =i+1 ;j<n;j++){
+                int rem = -(nums[j] + nums[i]);
+                //finding and inserting involves logn time
+                if(hashSet.find(rem) != hashSet.end()){
+                    vector<int> temp{nums[i],nums[j],rem};
+                    sort(temp.begin(),temp.end());
+                    st.insert(temp);
+                }
+                hashSet.insert(nums[j]);
+            }
 
+        }
+         vector<vector<int>> vec(st.begin(),st.end());
+        
+        return vec;
+    }
+};
 
