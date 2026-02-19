@@ -21,3 +21,31 @@ int twoSumK(vector<int> &nums, int k)
     }
     return max_res;
 }
+
+//Optimal approach works in O(n)
+
+int twoSumK(vector<int>& nums,int k) {
+    vector<int> res;
+    //optimized approach works in O(nlogn)
+    int ans=-1;
+    sort(nums.begin(),nums.end());
+
+    int l = 0;
+    int r = nums.size()-1;
+    while(l<r){
+        int sum = nums[l] + nums[r];
+        if(sum < k){
+            ans = max(sum,ans);
+            /*
+                Why max is used here?
+                Consider this test case:
+                {1,2,3,8} target = 10
+            */
+            l++;
+        }
+        else{
+            r--;
+        }
+    }
+    return ans;
+}
