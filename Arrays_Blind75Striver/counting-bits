@@ -23,3 +23,18 @@ public:
         return ans;
     }
 };
+//More optimized solution works in linear time
+//On the face that for even integer no. of setbits is same as n>>1
+//And for odd integers it is n>>1 + 1
+#include <vector>
+using namespace std;
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> ans(n + 1);
+        for (int i = 1; i <= n; i++) {
+            ans[i] = ans[i >> 1] + (i & 1);
+        }
+        return ans;
+    }
+};
