@@ -10,22 +10,14 @@
  */
 class Solution {
 public:
-   
-    ListNode* deleteMiddle(ListNode* head) {
-        ListNode *slow,*fast;
-        slow = head;
-        fast = head;
-        ListNode* prev=head;
+    ListNode* middleNode(ListNode* head) {
+        //We can apply slow and fast pointer method
+        ListNode* slow = head;
+        ListNode* fast = head;
         while(fast && fast->next){
-            prev= slow;
             slow = slow->next;
             fast = fast->next->next;
         }
-        if(slow == prev){
-            return nullptr;
-        }
-        prev->next = slow->next;
-	delete slow;
-        return head;
+        return slow;
     }
 };
