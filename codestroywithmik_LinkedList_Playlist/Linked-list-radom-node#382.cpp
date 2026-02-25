@@ -33,3 +33,4 @@ public:
  * Solution* obj = new Solution(head);
  * int param_1 = obj->getRandom();
  */
+//Reservoir sampling method the better approach to this prob
