@@ -39,3 +39,51 @@ public:
 
     }
 };
+
+//BFS approch Kahn's algorithm
+
+class Solution {
+public:
+    //BFS Approach using kahn's algo
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> inDegree(numCourses,0);
+        unordered_map<int, vector<int>> mp;
+
+        for(auto& x: prerequisites){
+            int u = x[1];
+            int v = x[0];
+            inDegree[v]+=1;
+            mp[u].push_back(v);
+        }
+
+
+        queue<int> q;
+
+        //jitne bhi 0 h unko q me daalo
+        for(int i=0;i<numCourses;i++){
+            if(!inDegree[i]){
+                q.push(i);
+            }
+        }
+
+        int nodes = 0;
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            nodes+=1;
+            for(auto& v: mp[front]){
+                inDegree[v]-=1;
+                if(inDegree[v] == 0){
+                    q.push(v);
+                }
+            }
+        }
+
+        if(nodes == numCourses){
+            return true;
+        }
+
+        return false;
+
+    }
+};
