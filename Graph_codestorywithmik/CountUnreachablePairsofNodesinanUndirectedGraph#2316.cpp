@@ -1,3 +1,6 @@
+//The most brute force solution , uses an extra space of the size of the nodes
+
+
 class Solution {
 public: 
     int counter = 0;
@@ -46,5 +49,51 @@ public:
 
 
         return findpairs(nodes);
+    }
+};
+
+
+//More better approach using dfs traversal and without using any extra space
+
+class Solution {
+public: 
+    int count = 0;
+    int dfs(int u, vector<bool>& visited, unordered_map<int,vector<int>>& mp){
+        visited[u] = true;
+        int sum = 1;
+        for(auto& v:mp[u]){
+            if(!visited[v]){
+                sum += dfs(v,visited, mp);
+            }
+        }
+        return sum;
+    }
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector<int> nodes;
+        unordered_map<int, vector<int>> mp;
+        vector<bool> visited(n, false);
+        for(auto& x: edges){
+            int u = x[0];
+            int v = x[1];
+            mp[u].push_back(v);
+            mp[v].push_back(u);
+        }
+
+        int total_nodes = n;
+        long long result = 0;
+        
+        for(int i=0;i<n;i++){
+            
+            if(!visited[i]){
+                int temp = dfs(i,visited, mp);
+               
+                result = result + ((long long)temp * (total_nodes-temp));
+
+                total_nodes = total_nodes-temp;
+            }
+        }
+
+
+        return result;
     }
 };
