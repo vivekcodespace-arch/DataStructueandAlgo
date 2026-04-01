@@ -97,3 +97,62 @@ public:
         return result;
     }
 };
+
+
+//Same logic but now with a bfs iteration 
+
+
+class Solution {
+public: 
+
+    //now i have to do the same counting via bfs traversal 
+    
+    int bfs(int u, vector<bool>& visited, unordered_map<int,vector<int>>& mp){
+        int count = 0;
+        queue<int> q;
+        q.push(u);
+        count++;
+        visited[u] = true;
+
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            for(auto& v: mp[front]){
+                if(!visited[v]){
+                    visited[v] = true;
+                    q.push(v);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector<int> nodes;
+        unordered_map<int, vector<int>> mp;
+        vector<bool> visited(n, false);
+        for(auto& x: edges){
+            int u = x[0];
+            int v = x[1];
+            mp[u].push_back(v);
+            mp[v].push_back(u);
+        }
+
+        int total_nodes = n;
+        long long result = 0;
+        
+        for(int i=0;i<n;i++){
+            
+            if(!visited[i]){
+                int temp = bfs(i,visited, mp);
+               
+                result = result + ((long long)temp * (total_nodes-temp));
+
+                total_nodes = total_nodes-temp;
+            }
+        }
+
+
+        return result;
+    }
+};
