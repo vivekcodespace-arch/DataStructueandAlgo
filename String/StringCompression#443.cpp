@@ -1,6 +1,9 @@
-// link: https://leetcode.com/problems/string-compression/
-
-//Solution:
+/*
+Problem: String Compression
+Link: https://leetcode.com/problems/string-compression/
+*/
+/*-------------------------------------------------Solution------------------------------------------------*/
+//T.C - O(n)
 class Solution {
 public:
     int compress(vector<char>& chars) {
