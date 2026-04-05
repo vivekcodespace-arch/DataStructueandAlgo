@@ -1,6 +1,6 @@
 /*
 
-Problem: 1631. Path With Minimum Effore
+Problem: 1631. Path With Minimum Effort
 Link :https://leetcode.com/problems/path-with-minimum-effort/
 
 T.C - O(m*n*log(mn))
