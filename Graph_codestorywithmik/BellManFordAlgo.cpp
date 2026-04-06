@@ -5,7 +5,7 @@
 
 
 // User function Template for C++
-
+//T.C - O(E*V)
 
 class Solution {
   public:
