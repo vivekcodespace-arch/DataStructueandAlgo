@@ -1,7 +1,7 @@
 //finding minimum spanning tree via kruskal's algorithm
 
-//T.C - 
-//S.C = 
+//T.C - O(ElogE)  it is scientifically proved that it takes cosntant time in find and union operation that's why the time complexity is dominated by the sorting which is O(ElogE)
+//S.C = for time complexity we can see we have O(V) + O(V) for storing the rank and parent which boils down to O(V)
 
 class Solution {
   public:
