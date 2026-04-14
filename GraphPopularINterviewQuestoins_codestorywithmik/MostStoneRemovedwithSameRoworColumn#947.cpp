@@ -106,6 +106,18 @@ public:
         }
 
         //let's iterate in the parent and check the ans
+        
+        //This section can also be improved with the counting of the groups now how can the groups be counted
+        //so simple if parent[i] == i it means it's a group
+        
+        //i have just comment down that ocde
+        /*
+			int grp =0;
+			for(int i=0;i<n;i++){
+				if(parent[i] == i) grp++;
+			}
+			return n - grp;
+        */
         unordered_map<int, int> count;
         for(int i=0;i<n;i++){
             int temp = find(i, parent);
