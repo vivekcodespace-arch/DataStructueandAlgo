@@ -1,0 +1,76 @@
+class Solution {
+public:
+    vector<bool> sieve;
+    void construct_sieve(int maxElement) {
+        sieve.resize(maxElement+1, true);
+        sieve[0] = false;
+        sieve[1] = false;
+
+        for (int num = 2; num *num<= maxElement; num++) {
+            if (sieve[num]) {
+                for(int multiple = num*num ; multiple<=maxElement ; multiple+=num){
+                    sieve[multiple] = false;
+                }
+            }
+        }
+    }
+    int minJumps(vector<int>& nums) {
+        int n = nums.size();
+
+        unordered_map<int, vector<int>> mp;
+
+        int maxEl = 0;
+        for(int i=0;i<n;i++){
+            mp[nums[i]].push_back(i);
+            maxEl = max(maxEl, nums[i]);
+        }
+
+        construct_sieve(maxEl);
+        vector<bool> visited(n, false);
+        unordered_set<int> seen;
+        int steps = 0;
+        queue<int> q;
+        q.push(0);
+        visited[0] = true;
+
+        while(!q.empty()){
+            int size = q.size();
+            while(size--){
+                int i = q.front();
+                q.pop();
+
+                if(i == n-1){
+                    return steps;
+                }
+
+                if(i-1>=0 && !visited[i-1]){
+                    q.push(i-1);
+                    visited[i-1] = true;
+                }
+                if(i+1 <= n-1 && !visited[i+1]){
+                    q.push(i+1);
+                    visited[i+1] = true;
+                }
+                if(!sieve[nums[i]] || seen.count(nums[i])){
+                    continue;
+                }
+                
+                for(int multiple = nums[i]; multiple <= maxEl ; multiple+=nums[i]){
+                    if(!mp.contains(multiple)) continue;
+
+                    for(int& j : mp[multiple]){
+                        q.push(j);
+                        visited[j] = true;
+                    }
+
+                }
+
+                seen.insert(nums[i]);
+            }
+
+            steps+=1;
+        }
+        return steps;
+        
+    }
+};
