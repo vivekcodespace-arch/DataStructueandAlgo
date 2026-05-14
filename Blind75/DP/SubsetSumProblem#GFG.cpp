@@ -35,3 +35,50 @@ class Solution {
         
     }
 };
+
+
+//Space optimized:
+
+
+class Solution {
+  public:
+    
+    
+    
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        // code here
+        //let's do it in bottom up 
+        int n = arr.size();
+        
+        vector<int> curr(sum+1, false);
+        vector<int> prev(sum+1, false);
+        
+        // vector<vector<bool>> t(n+1 , vector<bool>(sum+1, false));
+        
+        curr[0] = true;
+        prev[0] = true;
+        
+        // for(int i=0;i<n+1;i++){
+        //     t[i][0] = true;
+        // }
+        
+        for(int i = 1;i < n+1;i++){
+            for(int j = 1;j < sum+1 ; j++){
+                bool skip = prev[j];
+                
+                bool take = false;
+                
+                if(arr[i-1] <= j){
+                    take = prev[j - arr[i-1]];
+                }
+                
+                curr[j] = take || skip;
+                
+            }
+                prev = curr;
+        }
+        
+        return prev[sum];
+        
+    }
+};
