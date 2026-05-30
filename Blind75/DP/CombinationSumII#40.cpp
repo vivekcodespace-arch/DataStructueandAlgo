@@ -28,3 +28,32 @@ public:
         return res;
     }
 };
+
+
+//2nd backtracking sol
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> temp;
+    void solve(int idx,int totalLeft, int k, int n){
+        if(totalLeft == 0 && temp.size() == k) {
+            result.push_back(temp);
+            return;
+        }
+        if(totalLeft < 0) return;
+        
+        if(idx >9) return;
+
+        for(int i=idx;i<10;i++){
+            
+            temp.push_back(i);
+            solve(i+1,totalLeft - i,  k , n);
+            temp.pop_back();
+
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        solve(1,n, k , n);
+        return result;
+    }
+};
