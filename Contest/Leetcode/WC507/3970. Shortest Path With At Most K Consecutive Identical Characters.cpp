@@ -1,50 +1,58 @@
+/* 
+Consider this test case:
+4 -> n
+4  -> edges_count
+[[0 2 1] [0 1 5] [1 2 1] [2 3 1]]
+abaa = labels
+2 = k   
+*/
+
 #include<bits/stdc++.h>
 using namespace std;
 
 class Solution {
 public:
     int shortestPath(int n, vector<vector<int>>& edges, string labels, int k) {
-        //first you need to create adjaceny list
-        unordered_map<int, vector<pair<int, int>>> mp;
-        for(auto& e : edges){
-            int u = e[0];
-            int v = e[1];
-            int wt = e[2];
-            mp[u].push_back({v,wt});
-            
-        }
-        
+        unordered_map<int, vector<pair<int,int>>> mp;
+        for (auto& e : edges)
+            mp[e[0]].push_back({e[1], e[2]});
 
-        priority_queue< vector<int>, vector<vector<int>>, greater<vector<int>> > pq; //wt, node, currentK
-        vector<int> res(n, INT_MAX);
-        res[0] = 0;
-        pq.push({0,0,1});
-        while(!pq.empty()){
-            vector<int> top = pq.top();
-            pq.pop();
-            
-            int wt,u,currentK;
-            wt = top[0];
-            u = top[1];
-            currentK = top[2];
-
-            for(auto& x: mp[u]){
-                int v = x.first;
-                int _wt = x.second;
-                if(labels[u] == labels[v] ){
-                    currentK++;
-                }
-                if(currentK > k) continue;
-                if(_wt + wt < res[v]){
-                    res[v] = _wt + wt;
-                    pq.push({wt+_wt, v , currentK});
-                }
-
+        //let's print the adjancy list
+        for(auto& x: mp){
+            cout<<x.first<<"-> ";
+            for(auto& y:x.second){
+                cout<<'[';
+                cout<<y.first<<","<<y.second;
+                cout<<"]";
             }
+            cout<<endl;
 
         }
+        cout<<endl;
+        vector<vector<int>> dist(n, vector<int>(k + 1, INT_MAX));
+        priority_queue<vector<int>, vector<vector<int>>, greater<>> pq; // {cost, node, run}
 
-        return res[n-1];
+        dist[0][1] = 0;
+        pq.push({0, 0, 1});
+
+        while (!pq.empty()) {
+            auto t = pq.top(); pq.pop();
+            int d = t[0], u = t[1], run = t[2];
+            if (d > dist[u][run]) continue;
+
+            for (auto& [v, w] : mp[u]) {
+                int nr = (labels[u] == labels[v]) ? run + 1 : 1;
+                if (nr > k) continue;
+                if (d + w < dist[v][nr]) {
+                    dist[v][nr] = d + w;
+                    pq.push({d + w, v, nr});
+                }
+            }
+        }
+
+        int ans = INT_MAX;
+        for (int c = 1; c <= k; c++) ans = min(ans, dist[n-1][c]);
+        return ans == INT_MAX ? -1 : ans;
     }
 };
 
